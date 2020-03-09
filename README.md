@@ -10,3 +10,8 @@ ideas here:
 - Elves; Fairies; Mermaids; Witches; Butterflies
 - Days get longer
 - To be played between the full moon and the spring equinox
+
+# CURRENTLY
+
+a lone cursed main
+
