@@ -1,0 +1,1 @@
+#include "CharacterPlayer.class.hpp"
