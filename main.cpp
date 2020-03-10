@@ -1,21 +1,46 @@
 #include <iostream>
 #include <ncurses.h>
+#include <list>
 #include "Character.class.hpp"
 #include "CharacterPlayer.class.hpp"
 #include "Map.class.hpp"
+#include "Plant.class.hpp"
 
 void	spring_init();
 void	spring_end();
+void	dsp_plants(WINDOW *w, CharacterPlayer pl);
+
+void	plants_init(void) {
+
+Plant pinkherb, violet, redshroom, fabulis;
+pinkherb.c = 'u';
+violet.c = 'i';
+redshroom.c = 'r';
+fabulis.c = 'v';
+pinkherb.y = 11; pinkherb.x = 22;
+violet.y = 10; violet.x = 20;
+redshroom.y = 18; redshroom.x = 28;
+fabulis.y = 15; fabulis.x = 18;
+plantList.push_back(pinkherb);
+plantList.push_back(violet);
+plantList.push_back(redshroom);
+plantList.push_back(fabulis);
+
+}
+
 
 int	main(int ac, char **av) {
+
 char	c;
 WINDOW	*win = NULL;
 
 CharacterPlayer	pl;
 pl.y = 10;pl.x = 25;
-pl.c = 'u';
+pl.c = '&';
 Map	mp;
 mp.map_init();
+
+plants_init();
 
 spring_init();
 win = newwin(20, 50, LINES/2-10, COLS/2-25);
@@ -30,16 +55,18 @@ while(1) {
 		case 's': pl.x--; break;
 		case 'd': pl.y++; break;
 		case 'f': pl.x++; break; }
-	// display
+
+	// DISPLAY
 	box(win, 0, 0);
-u = 10-pl.y;
-if (u<0) u = 0;
-v = 25-pl.x;
-if (v<0) v = 0;
-w = 64-pl.x;
-if (w>25) w = 25;
-t = 24-pl.y;
-if (t>10) t = 10;
+	// spaces
+	u = 10-pl.y;
+	if (u<0) u = 0;
+	v = 25-pl.x;
+	if (v<0) v = 0;
+	w = 64-pl.x;
+	if (w>25) w = 25;
+	t = 24-pl.y;
+	if (t>10) t = 10;
 	// spaces top of the map
 	for(int j=u; j>0; j--) {
 		for(int k=0; k<50; k++) {
@@ -57,6 +84,7 @@ if (t>10) t = 10;
 			mvwaddch(win, i+u, k+25, ' '); }
 		for(int j=0; j<50-v-(25-w); j++) {
 			mvwaddch(win, i+u, j+v, mp.s[(u+i+pl.y-10)*64+pl.x-25+j+v]);}}
+	dsp_plants(win, pl);
 	mvwaddch(win, 10, 25, pl.c);
 	wrefresh(win);
 	mvaddstr(LINES/2-7, COLS/2-45, "q to quit");
@@ -66,6 +94,7 @@ delwin(win);
 spring_end();
 return 0; }
 
+
 void	spring_init() {
 	setlocale(LC_ALL, "");
 	initscr(); cbreak(); noecho();
@@ -74,4 +103,9 @@ void	spring_init() {
 
 void	spring_end() {
 	endwin();
+}
+void	dsp_plants(WINDOW *w, CharacterPlayer pl) {
+std::list <Plant> :: iterator p; 
+for(p = plantList.begin(); p != plantList.end(); ++p) 
+	mvwaddch(w, p->y-(pl.y-10), p->x-(pl.x-25), p->c);
 }
