@@ -13,5 +13,6 @@ ideas here:
 
 # CURRENTLY
 
-a lone cursed main
+-a lone cursed main-
+You could explore an empty map.
 
