@@ -12,7 +12,7 @@ char	c;
 WINDOW	*win = NULL;
 
 CharacterPlayer	pl;
-pl.x = 10;pl.y = 25;
+pl.y = 10;pl.x = 25;
 pl.c = 'u';
 Map	mp;
 mp.map_init();
@@ -20,6 +20,8 @@ mp.map_init();
 spring_init();
 win = newwin(20, 50, LINES/2-10, COLS/2-25);
 mvaddstr(LINES/2-9, COLS/2-45, "Press a key");
+
+int u, v = 0;
 while(1) {
 	while((c=getch())==ERR);
 	if (c=='q') break;
@@ -30,12 +32,25 @@ while(1) {
 		case 'f': pl.x++; break; }
 	// display
 	box(win, 0, 0);
-	for(int i=0; i<20; i++) {
-		for(int j=0; j<50; j++) {
-			mvwaddch(win, i, j, mp.s[(pl.y-10+i)*64+pl.x-25+j]);}}
+u = 10-pl.y;
+if (u<0) u = 0;
+v = 25-pl.x;
+if (v<0) v = 0;
+	// spaces on top of the map
+	for(int j=u; j>0; j--) {
+		for(int k=0; k<50; k++) {
+			mvwaddch(win, j-1, k, ' '); }}
+
+	for(int i=0; i<20-u; i++) {
+		// spaces left of the map
+		for(int k=v; k>0; k--) {
+			mvwaddch(win, i+u, k-1, ' '); }
+		for(int j=0; j<50-v; j++) {
+			mvwaddch(win, i+u, j+v, mp.s[(u+i+pl.y-10)*64+pl.x-25+j+v]);}}
 	mvwaddch(win, 10, 25, pl.c);
 	wrefresh(win);
 	mvaddstr(LINES/2-7, COLS/2-45, "q to quit");
+	mvaddstr(LINES/2-5, COLS/2-45, "esdf to move");
 }
 delwin(win);
 spring_end();
