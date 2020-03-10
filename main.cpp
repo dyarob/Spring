@@ -14,9 +14,7 @@ void	plants_init(void) {
 
 Plant pinkherb, violet, redshroom, fabulis;
 pinkherb.c = 'u';
-violet.c = 'i';
-redshroom.c = 'r';
-fabulis.c = 'v';
+violet.c = 'i'; redshroom.c = 'r'; fabulis.c = 'v';
 pinkherb.y = 11; pinkherb.x = 22;
 violet.y = 10; violet.x = 20;
 redshroom.y = 18; redshroom.x = 28;
@@ -26,6 +24,15 @@ plantList.push_back(violet);
 plantList.push_back(redshroom);
 plantList.push_back(fabulis);
 
+}
+
+void	pick(CharacterPlayer pl) {
+std::list <Plant> :: iterator p; 
+for (p = plantList.begin(); p != plantList.end(); ++p) 
+	if (std::abs((int)(pl.y-p->y))+std::abs((int)(pl.x-p->x)) < 3) {
+		plantList.erase(p);
+		return;
+	}
 }
 
 
@@ -54,7 +61,10 @@ while(1) {
 		case 'e': pl.y--; break;
 		case 's': pl.x--; break;
 		case 'd': pl.y++; break;
-		case 'f': pl.x++; break; }
+		case 'f': pl.x++; break;
+
+		case 'p': pick(pl); break;
+		case 't':break; }
 
 	// DISPLAY
 	box(win, 0, 0);
@@ -89,6 +99,8 @@ while(1) {
 	wrefresh(win);
 	mvaddstr(LINES/2-7, COLS/2-45, "q to quit");
 	mvaddstr(LINES/2-5, COLS/2-45, "esdf to move");
+	mvaddstr(LINES/2-3, COLS/2-45, "p to pick (flower)");
+	mvaddstr(LINES/2-3, COLS/2-45, "t to talk");
 }
 delwin(win);
 spring_end();
