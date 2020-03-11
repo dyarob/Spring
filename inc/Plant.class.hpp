@@ -2,9 +2,7 @@
 # define PLANT_HPP
 
 # include <list>
-
-std::list <Plant>	plantList;
-
+# include "Character.class.hpp"
 
 class	Plant {
 public:
@@ -15,6 +13,10 @@ unsigned char y;
 };
 
 
+extern std::list <Plant>	plantList;
+
+
 void	plants_init(void);
+void	pick(Character pl);
 
 #endif
