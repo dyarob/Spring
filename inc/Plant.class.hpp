@@ -3,6 +3,9 @@
 
 # include <list>
 
+std::list <Plant>	plantList;
+
+
 class	Plant {
 public:
 unsigned char c;
@@ -11,7 +14,6 @@ unsigned char x;
 unsigned char y;
 };
 
-std::list <Plant>	plantList;
 
 void	plants_init(void);
 

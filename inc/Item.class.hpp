@@ -9,6 +9,4 @@ unsigned char	c;
 std::string	name;
 };
 
-//Item	pinkherb
-
 #endif

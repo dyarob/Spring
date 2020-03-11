@@ -1,16 +1,14 @@
 #include <iostream>
 #include <ncurses.h>
 #include <list>
-#include <stdlib.h>	// itoa
 #include "Character.class.hpp"
-#include "CharacterPlayer.class.hpp"
 #include "Map.class.hpp"
 #include "Plant.class.hpp"
 #include "Inventory.class.hpp"
 
 void	spring_init();
 void	spring_end();
-void	dsp_plants(WINDOW *w, CharacterPlayer pl);
+void	dsp_plants(WINDOW *w, Character pl);
 void	dsp_inv(WINDOW *winv, Inventory inv);
 
 void	plants_init(void) {
@@ -29,7 +27,7 @@ plantList.push_back(fabulis);
 
 }
 
-void	pick(CharacterPlayer pl) {
+void	pick(Character pl) {
 std::list <Plant> :: iterator p; 
 for (p = plantList.begin(); p != plantList.end(); ++p) 
 	if (std::abs((int)(pl.y-p->y))+std::abs((int)(pl.x-p->x)) < 3) {
@@ -45,7 +43,7 @@ bool	inv_open = false;
 char	c;
 WINDOW	*win, *winv = NULL;
 
-CharacterPlayer	pl;
+Character	pl;
 pl.y = 10;pl.x = 25;
 pl.c = '&';
 Map	mp;
@@ -139,7 +137,7 @@ void	spring_end() {
 	endwin();
 }
 
-void	dsp_plants(WINDOW *w, CharacterPlayer pl) {
+void	dsp_plants(WINDOW *w, Character pl) {
 std::list <Plant> :: iterator p; 
 for (p = plantList.begin(); p != plantList.end(); ++p) 
 	mvwaddch(w, p->y-(pl.y-10), p->x-(pl.x-25), p->c);

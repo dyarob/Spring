@@ -8,6 +8,7 @@ Item	i;
 char	n[10];
 } invItem;
 
+
 class	Inventory {
 public:
 invItem	items[20];
