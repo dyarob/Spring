@@ -1,14 +1,17 @@
 #include <iostream>
 #include <ncurses.h>
 #include <list>
+#include <stdlib.h>	// itoa
 #include "Character.class.hpp"
 #include "CharacterPlayer.class.hpp"
 #include "Map.class.hpp"
 #include "Plant.class.hpp"
+#include "Inventory.class.hpp"
 
 void	spring_init();
 void	spring_end();
 void	dsp_plants(WINDOW *w, CharacterPlayer pl);
+void	dsp_inv(WINDOW *winv, Inventory inv);
 
 void	plants_init(void) {
 
@@ -40,13 +43,15 @@ int	main(int ac, char **av) {
 
 bool	inv_open = false;
 char	c;
-WINDOW	*win, *inv = NULL;
+WINDOW	*win, *winv = NULL;
 
 CharacterPlayer	pl;
 pl.y = 10;pl.x = 25;
 pl.c = '&';
 Map	mp;
 mp.map_init();
+Inventory	inv;
+inv.inv_init();
 
 plants_init();
 
@@ -69,16 +74,18 @@ while(1) {
 
 		case 'i': if (!inv_open) {
 				inv_open = true;
-				inv = newwin(20, 10, LINES/2-10, COLS/2+30);
-				box(inv, 0, 0);
-				wrefresh(inv); }
+				winv = newwin(20, 20, LINES/2-10, COLS/2+30);
+				box(winv, 0, 0);
+				mvwaddstr(winv, 1, 1, "Inventory");
+				dsp_inv(winv, inv);
+				wrefresh(winv); }
 			else {
 				inv_open = false;
 				for (int i = 0; i < 20; i++)
-					for (int j = 0; j <10; j++)
-						mvwaddch(inv, i, j, ' ');
-				wrefresh(inv);
-				delwin(inv); } break; }
+					for (int j = 0; j <20; j++)
+						mvwaddch(winv, i, j, ' ');
+				wrefresh(winv);
+				delwin(winv); } break; }
 
 	// DISPLAY
 	box(win, 0, 0);
@@ -131,8 +138,16 @@ void	spring_init() {
 void	spring_end() {
 	endwin();
 }
+
 void	dsp_plants(WINDOW *w, CharacterPlayer pl) {
 std::list <Plant> :: iterator p; 
-for(p = plantList.begin(); p != plantList.end(); ++p) 
+for (p = plantList.begin(); p != plantList.end(); ++p) 
 	mvwaddch(w, p->y-(pl.y-10), p->x-(pl.x-25), p->c);
+}
+
+void	dsp_inv(WINDOW *w, Inventory inv) {
+char	buf[10];
+for (int i=0; i<4; i++) {
+	mvwaddstr(w, 3+i*3, 1, inv.items[i].i.name.c_str());
+	mvwaddstr(w, 4+i*3, 1, inv.items[i].n); }
 }
