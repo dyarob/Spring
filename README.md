@@ -13,6 +13,7 @@ ideas here:
 
 # CURRENTLY
 
--a lone cursed main-
-You could explore an empty map.
+~~a lone cursed main~~
+~~You could explore an empty map.~~
+You can pick some "flowers" and that's about it...
 

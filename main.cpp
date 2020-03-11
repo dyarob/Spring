@@ -38,8 +38,9 @@ for (p = plantList.begin(); p != plantList.end(); ++p)
 
 int	main(int ac, char **av) {
 
+bool	inv_open = false;
 char	c;
-WINDOW	*win = NULL;
+WINDOW	*win, *inv = NULL;
 
 CharacterPlayer	pl;
 pl.y = 10;pl.x = 25;
@@ -64,7 +65,20 @@ while(1) {
 		case 'f': pl.x++; break;
 
 		case 'p': pick(pl); break;
-		case 't':break; }
+		case 't':break;
+
+		case 'i': if (!inv_open) {
+				inv_open = true;
+				inv = newwin(20, 10, LINES/2-10, COLS/2+30);
+				box(inv, 0, 0);
+				wrefresh(inv); }
+			else {
+				inv_open = false;
+				for (int i = 0; i < 20; i++)
+					for (int j = 0; j <10; j++)
+						mvwaddch(inv, i, j, ' ');
+				wrefresh(inv);
+				delwin(inv); } break; }
 
 	// DISPLAY
 	box(win, 0, 0);
@@ -100,7 +114,8 @@ while(1) {
 	mvaddstr(LINES/2-7, COLS/2-45, "q to quit");
 	mvaddstr(LINES/2-5, COLS/2-45, "esdf to move");
 	mvaddstr(LINES/2-3, COLS/2-45, "p to pick (flower)");
-	mvaddstr(LINES/2-3, COLS/2-45, "t to talk");
+	mvaddstr(LINES/2-1, COLS/2-45, "i for inventory");
+	mvaddstr(LINES/2+1, COLS/2-45, "t to talk");
 }
 delwin(win);
 spring_end();
