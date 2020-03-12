@@ -1,7 +1,6 @@
 #include "Inventory.class.hpp"
 
 void	Inventory::inv_init(void) {
-Item	pinkherb, violet, redshroom, fabulis;
 pinkherb.c = 'u'; pinkherb.name = "Pink Herb";
 violet.c = 'i'; violet.name = "Violet";
 redshroom.c = 'r'; redshroom.name = "Red Mushroom";

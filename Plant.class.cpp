@@ -1,22 +1,28 @@
 #include "Plant.class.hpp"
+#include <cstdlib>
+#include <iostream>
 
 std::list <Plant>	plantList;
 
 void	plants_init(void) {
-Plant pinkherb, violet, redshroom, fabulis;
-pinkherb.c = 'u'; violet.c = 'i'; redshroom.c = 'r'; fabulis.c = 'v';
-pinkherb.y = 11; pinkherb.x = 22; violet.y = 10; violet.x = 20;
-redshroom.y = 18; redshroom.x = 28; fabulis.y = 15; fabulis.x = 18;
-plantList.push_back(pinkherb);
-plantList.push_back(violet);
-plantList.push_back(redshroom);
-plantList.push_back(fabulis);
+Plant ppinkherb, pviolet, predshroom, pfabulis;
+ppinkherb.c = 'u'; pviolet.c = 'i'; predshroom.c = 'r'; pfabulis.c = 'v';
+ppinkherb.y = 11; ppinkherb.x = 22; pviolet.y = 10; pviolet.x = 20;
+predshroom.y = 18; predshroom.x = 28; pfabulis.y = 15; pfabulis.x = 18;
+ppinkherb.i = pinkherb; pviolet.i = violet; predshroom.i = redshroom; pfabulis.i = fabulis;
+plantList.push_back(ppinkherb);
+plantList.push_back(pviolet);
+plantList.push_back(predshroom);
+plantList.push_back(pfabulis);
 }
 
-void	pick(Character pl) {
+void	pick(Character pl, Inventory inv) {
 std::list <Plant> :: iterator p; 
 for (p = plantList.begin(); p != plantList.end(); ++p) 
 	if (std::abs((int)(pl.y-p->y))+std::abs((int)(pl.x-p->x)) < 3) {
+		for (int i = 0; i < 20; i++)
+			if (p->i.c == inv.items[i].i.c){
+				inv.items[i].n[0]++;}
 		plantList.erase(p);
 		return;
 	}

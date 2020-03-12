@@ -44,7 +44,7 @@ while(1) {
 		case 'd': pl.y++; break;
 		case 'f': pl.x++; break;
 
-		case 'p': pick(pl); break;
+		case 'p': pick(pl, inv); break;
 		case 't':break;
 
 		case 'i': if (!inv_open) {

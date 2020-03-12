@@ -9,4 +9,9 @@ unsigned char	c;
 std::string	name;
 };
 
+extern Item	pinkherb;
+extern Item	violet;
+extern Item	redshroom;
+extern Item	fabulis;
+
 #endif
