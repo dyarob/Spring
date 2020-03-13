@@ -23,7 +23,7 @@ WINDOW	*win, *winv = NULL;
 Character	pl;
 pl.y = 10; pl.x = 25; pl.c = '&';
 Character	anissa;
-anissa.y = 13; anissa.x = 30; anissa.c = '&';
+anissa.y = 14; anissa.x = 35; anissa.c = '&';
 Map	mp; mp.map_init();
 Inventory	inv; inv.inv_init();
 plants_init();
@@ -48,7 +48,7 @@ while(1) {
 		case 'f': pl.x++; break;
 
 		case 'p': inv = pick(pl, inv); break;
-		case 't': talk(pl); break;
+		case 't': talk(pl, anissa); break;
 
 		case 'i': if (!inv_open) {
 				inv_open = true;
