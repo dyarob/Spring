@@ -11,6 +11,7 @@ void	spring_end();
 void	dsp_map(WINDOW *w, Character pl, Map mp);
 void	dsp_plants(WINDOW *w, Character pl);
 void	dsp_inv(WINDOW *winv, Inventory inv);
+void	dsp_chars(WINDOW *win, Character pl, Character anissa);
 
 
 int	main(int ac, char **av) {
@@ -21,6 +22,8 @@ WINDOW	*win, *winv = NULL;
 
 Character	pl;
 pl.y = 10; pl.x = 25; pl.c = '&';
+Character	anissa;
+anissa.y = 13; anissa.x = 30; anissa.c = '&';
 Map	mp; mp.map_init();
 Inventory	inv; inv.inv_init();
 plants_init();
@@ -45,7 +48,7 @@ while(1) {
 		case 'f': pl.x++; break;
 
 		case 'p': inv = pick(pl, inv); break;
-		case 't':break;
+		case 't': talk(pl); break;
 
 		case 'i': if (!inv_open) {
 				inv_open = true;
@@ -64,6 +67,7 @@ while(1) {
 	// DISPLAY
 	dsp_map(win, pl, mp);
 	dsp_plants(win, pl);
+	dsp_chars(win, pl, anissa);
 	mvwaddch(win, 10, 25, pl.c);
 	wrefresh(win);
 	if (inv_open) {
@@ -124,4 +128,8 @@ void	dsp_inv(WINDOW *w, Inventory inv) {
 for (int i=0; i<4; i++) {
 	mvwaddstr(w, 3+i*3, 1, inv.items[i].i.name.c_str());
 	mvwaddstr(w, 4+i*3, 1, std::to_string(inv.items[i].n).c_str()); }
+}
+
+void	dsp_chars(WINDOW *w, Character pl, Character anissa) {
+mvwaddch(w, anissa.y-(pl.y-10), anissa.x-(pl.x-25), anissa.c);
 }
