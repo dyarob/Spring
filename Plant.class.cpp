@@ -16,14 +16,15 @@ plantList.push_back(predshroom);
 plantList.push_back(pfabulis);
 }
 
-void	pick(Character pl, Inventory inv) {
+Inventory	pick(Character pl, Inventory inv) {
 std::list <Plant> :: iterator p; 
 for (p = plantList.begin(); p != plantList.end(); ++p) 
 	if (std::abs((int)(pl.y-p->y))+std::abs((int)(pl.x-p->x)) < 3) {
 		for (int i = 0; i < 20; i++)
-			if (p->i.c == inv.items[i].i.c){
-				inv.items[i].n[0]++;}
+			if (p->i.c == inv.items[i].i.c)
+				inv.items[i].n++;
 		plantList.erase(p);
-		return;
+		return inv;
 	}
+	return inv;
 }

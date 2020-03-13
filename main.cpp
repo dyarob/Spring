@@ -44,7 +44,7 @@ while(1) {
 		case 'd': pl.y++; break;
 		case 'f': pl.x++; break;
 
-		case 'p': pick(pl, inv); break;
+		case 'p': inv = pick(pl, inv); break;
 		case 't':break;
 
 		case 'i': if (!inv_open) {
@@ -52,7 +52,6 @@ while(1) {
 				winv = newwin(20, 20, LINES/2-10, COLS/2+30);
 				box(winv, 0, 0);
 				mvwaddstr(winv, 1, 1, "Inventory");
-				dsp_inv(winv, inv);
 				wrefresh(winv); }
 			else {
 				inv_open = false;
@@ -67,6 +66,9 @@ while(1) {
 	dsp_plants(win, pl);
 	mvwaddch(win, 10, 25, pl.c);
 	wrefresh(win);
+	if (inv_open) {
+		dsp_inv(winv, inv);
+		wrefresh(winv); }
 }
 delwin(win);
 spring_end();
@@ -119,8 +121,7 @@ for (p = plantList.begin(); p != plantList.end(); ++p)
 }
 
 void	dsp_inv(WINDOW *w, Inventory inv) {
-char	buf[10];
 for (int i=0; i<4; i++) {
 	mvwaddstr(w, 3+i*3, 1, inv.items[i].i.name.c_str());
-	mvwaddstr(w, 4+i*3, 1, inv.items[i].n); }
+	mvwaddstr(w, 4+i*3, 1, std::to_string(inv.items[i].n).c_str()); }
 }

@@ -20,6 +20,6 @@ extern std::list <Plant>	plantList;
 
 
 void	plants_init(void);
-void	pick(Character pl, Inventory inv);
+Inventory	pick(Character pl, Inventory inv);
 
 #endif

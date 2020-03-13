@@ -5,7 +5,7 @@
 
 typedef struct {
 Item	i;
-char	n[10];
+int	n;
 } invItem;
 
 
