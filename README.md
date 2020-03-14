@@ -14,6 +14,9 @@ ideas here:
 # CURRENTLY
 
 ~~a lone cursed main~~
-~~You could explore an empty map.~~
-You can pick some "flowers" and that's about it...
 
+~~You could explore an empty map.~~
+
+~~You can pick some "flowers" and that's about it...~~
+
+You can do some things, but there doesn't seem to be any point
