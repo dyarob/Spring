@@ -5,10 +5,12 @@
 #include "Map.class.hpp"
 #include "Plant.class.hpp"
 #include "Inventory.class.hpp"
+#include "farming.hpp"
 
 void	spring_init();
 void	spring_end();
 void	dsp_map(WINDOW *w, Character pl, Map mp);
+void	dsp_tilled(WINDOW *w, Character pl);
 void	dsp_plants(WINDOW *w, Character pl);
 void	dsp_inv(WINDOW *winv, Inventory inv);
 void	dsp_chars(WINDOW *win, Character pl, Character anissa);
@@ -25,6 +27,7 @@ pl.y = 10; pl.x = 25; pl.c = '&';
 Character	anissa;
 anissa.y = 14; anissa.x = 35; anissa.c = '&';
 Map	mp; mp.map_init();
+tilled_init();
 Inventory	inv; inv.inv_init();
 plants_init();
 
@@ -33,9 +36,10 @@ win = newwin(20, 50, LINES/2-10, COLS/2-25);
 mvaddstr(LINES/2-10, COLS/2-45, "Press a key");
 mvaddstr(LINES/2-7, COLS/2-45, "q to quit");
 mvaddstr(LINES/2-5, COLS/2-45, "esdf to move");
-mvaddstr(LINES/2-3, COLS/2-45, "p to pick (flower)");
+mvaddstr(LINES/2-3, COLS/2-45, "t to talk");
 mvaddstr(LINES/2-1, COLS/2-45, "i for inventory");
-mvaddstr(LINES/2+1, COLS/2-45, "t to talk");
+mvaddstr(LINES/2+1, COLS/2-45, "p to pick (flower)");
+mvaddstr(LINES/2+3, COLS/2-45, "l/o to till/plant");
 
 
 while(1) {
@@ -46,10 +50,7 @@ while(1) {
 		case 's': pl.x--; break;
 		case 'd': pl.y++; break;
 		case 'f': pl.x++; break;
-
-		case 'p': inv = pick(pl, inv); break;
 		case 't': talk(pl, anissa); break;
-
 		case 'i': if (!inv_open) {
 				inv_open = true;
 				winv = newwin(20, 20, LINES/2-10, COLS/2+30);
@@ -62,10 +63,15 @@ while(1) {
 					for (int j = 0; j <20; j++)
 						mvwaddch(winv, i, j, ' ');
 				wrefresh(winv);
-				delwin(winv); } break; }
+				delwin(winv); } break;
+		case 'p': inv = pick(pl, inv); break;
+		case 'l': till(pl); break;
+		case 'o':break;
+	}
 
 	// DISPLAY
 	dsp_map(win, pl, mp);
+	dsp_tilled(win, pl);
 	dsp_plants(win, pl);
 	dsp_chars(win, pl, anissa);
 	mvwaddch(win, 10, 25, pl.c);
@@ -132,4 +138,11 @@ for (int i=0; i<4; i++) {
 
 void	dsp_chars(WINDOW *w, Character pl, Character anissa) {
 mvwaddch(w, anissa.y-(pl.y-10), anissa.x-(pl.x-25), anissa.c);
+}
+
+void	dsp_tilled(WINDOW *w, Character pl) {
+for (int i = pl.y - 10; i < pl.y + 10; i++)
+	for(int j = pl.x - 25; j < pl.x + 25; j++)
+		if (tilled[i][j])
+			mvwaddch(w, i-(pl.y-10), j-(pl.x-25), '^');
 }
