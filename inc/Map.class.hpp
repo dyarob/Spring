@@ -7,7 +7,11 @@ class	Map {
 public:
 std::string	s;
 
-void	map_init(void);
+int	h;
+int	w;
+
 };
+
+void	map_init(void);
 
 #endif

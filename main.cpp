@@ -46,10 +46,12 @@ while(1) {
 	while((c=getch())==ERR);
 	if (c=='q') break;
 	switch (c) {
-		case 'e': if (mp.s[(pl.y-1)*64+pl.x] == '.') pl.y--; break;
-		case 's': if (mp.s[(pl.y)*64+pl.x-1] == '.') pl.x--; break;
-		case 'd': if (mp.s[(pl.y+1)*64+pl.x] == '.') pl.y++; break;
-		case 'f': if (mp.s[(pl.y)*64+pl.x+1] == '.') pl.x++; break;
+		case 'e': if (mp.s[(pl.y-1)*64+pl.x] == '.' || mp.s[(pl.y-1)*64+pl.x] == '"') pl.y--;
+			if (mp.s[(pl.y-1)*64+pl.x] == 'D') break;	// house.enter
+break;
+		case 's': if (mp.s[(pl.y)*64+pl.x-1] == '.' || mp.s[(pl.y)*64+pl.x-1] == '"') pl.x--; break;
+		case 'd': if (mp.s[(pl.y+1)*64+pl.x] == '.' || mp.s[(pl.y+1)*64+pl.x] == '"') pl.y++; break;
+		case 'f': if (mp.s[(pl.y)*64+pl.x+1] == '.' || mp.s[(pl.y)*64+pl.x+1] == '"') pl.x++; break;
 		case 't': talk(pl, anissa); break;
 		case 'i': if (!inv_open) {
 				inv_open = true;
