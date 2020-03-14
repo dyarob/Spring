@@ -65,7 +65,7 @@ while(1) {
 				wrefresh(winv);
 				delwin(winv); } break;
 		case 'p': inv = pick(pl, inv); break;
-		case 'l': till(pl); break;
+		case 'l': till(pl, mp); break;
 		case 'o':break;
 	}
 
