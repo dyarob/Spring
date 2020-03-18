@@ -26,8 +26,8 @@ Character	pl;
 pl.y = 10; pl.x = 25; pl.c = '&';
 Character	anissa;
 anissa.y = 14; anissa.x = 35; anissa.c = '&';
-Map	mp; Map house; map_init(&mp, &house);
-//Map	*mp = &map; <==
+Map	map; Map house; map_init(&map, &house);
+Map	*mp = &map;
 tilled_init();
 Inventory	inv; inv.inv_init();
 plants_init();
@@ -47,12 +47,26 @@ while(1) {
 	while((c=getch())==ERR);
 	if (c=='q') break;
 	switch (c) {
-		case 'e': if (mp.s[(pl.y-1)*64+pl.x] == '.' || mp.s[(pl.y-1)*64+pl.x] == '"') pl.y--;
-			if (mp.s[(pl.y-1)*64+pl.x] == 'D') //mp = &house; break;	// house.enter
-break;break;
-		case 's': if (mp.s[(pl.y)*64+pl.x-1] == '.' || mp.s[(pl.y)*64+pl.x-1] == '"') pl.x--; break;
-		case 'd': if (mp.s[(pl.y+1)*64+pl.x] == '.' || mp.s[(pl.y+1)*64+pl.x] == '"') pl.y++; break;
-		case 'f': if (mp.s[(pl.y)*64+pl.x+1] == '.' || mp.s[(pl.y)*64+pl.x+1] == '"') pl.x++; break;
+		case 'e': if (mp->s[(pl.y-1)*mp->w+pl.x] == '.' || mp->s[(pl.y-1)*mp->w+pl.x] == '"'
+				|| mp->s[(pl.y-1)*mp->w+pl.x] == '#') pl.y--;
+			else if (mp->s[(pl.y-1)*mp->w+pl.x] == 'D') { mp = &house;
+							pl.y = 2; pl.x = 5; break; }
+			break;
+		case 's': if (mp->s[(pl.y)*mp->w+pl.x-1] == '.' || mp->s[(pl.y)*mp->w+pl.x-1] == '"'
+				|| mp->s[(pl.y)*mp->w+pl.x-1] == '#') pl.x--;
+			else if (mp->s[(pl.x-1)*mp->w+pl.x] == 'D') { mp = &map;
+							pl.y = 14; pl.x = 33; break; }
+			break;
+		case 'd': if (mp->s[(pl.y+1)*mp->w+pl.x] == '.' || mp->s[(pl.y+1)*mp->w+pl.x] == '"'
+				|| mp->s[(pl.y+1)*mp->w+pl.x] == '#') pl.y++;
+			else if (mp->s[(pl.y+1)*mp->w+pl.x] == 'D') { mp = &map;
+							pl.y = 14; pl.x = 33; break; }
+			break;
+		case 'f': if (mp->s[(pl.y)*mp->w+pl.x+1] == '.' || mp->s[(pl.y)*mp->w+pl.x+1] == '"'
+				|| mp->s[(pl.y)*mp->w+pl.x+1] == '#') pl.x++;
+			else if (mp->s[(pl.x+1)*mp->w+pl.x] == 'D') { mp = &map;
+							pl.y = 14; pl.x = 33; break; }
+			break;
 		case 't': talk(pl, anissa); break;
 		case 'i': if (!inv_open) {
 				inv_open = true;
@@ -68,12 +82,12 @@ break;break;
 				wrefresh(winv);
 				delwin(winv); } break;
 		case 'p': inv = pick(pl, inv); break;
-		case 'l': till(pl, mp); break;
+		case 'l': till(pl, *mp); break;
 		case 'o':break;
 	}
 
 	// DISPLAY
-	dsp_map(win, pl, mp);
+	dsp_map(win, pl, *mp);
 	dsp_tilled(win, pl);
 	dsp_plants(win, pl);
 	dsp_chars(win, pl, anissa);
@@ -104,9 +118,9 @@ int	u = 10-pl.y;
 if (u<0) u = 0;
 int	v = 25-pl.x;
 if (v<0) v = 0;
-int	w = 64-pl.x;
+int	w = mp.w-pl.x;
 if (w>25) w = 25;
-int	t = 24-pl.y;
+int	t = mp.h-pl.y;
 if (t>10) t = 10;
 // spaces top of the map
 for(int j=u; j>0; j--) {
@@ -124,7 +138,7 @@ for(int i=0; i<20-u-(10-t); i++) {
 	for(int k=w; k<25; k++) {
 		mvwaddch(win, i+u, k+25, ' '); }
 	for(int j=0; j<50-v-(25-w); j++) {
-		mvwaddch(win, i+u, j+v, mp.s[(u+i+pl.y-10)*64+pl.x-25+j+v]);}}
+		mvwaddch(win, i+u, j+v, mp.s[(u+i+pl.y-10)*mp.w+pl.x-25+j+v]);}}
 }
 
 void	dsp_plants(WINDOW *w, Character pl) {
