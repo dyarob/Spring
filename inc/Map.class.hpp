@@ -12,6 +12,6 @@ int	w;
 
 };
 
-void	map_init(void);
+void	map_init(Map *mp, Map *house);
 
 #endif

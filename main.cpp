@@ -26,7 +26,8 @@ Character	pl;
 pl.y = 10; pl.x = 25; pl.c = '&';
 Character	anissa;
 anissa.y = 14; anissa.x = 35; anissa.c = '&';
-Map	mp; mp.map_init();
+Map	mp; Map house; map_init(&mp, &house);
+//Map	*mp = &map; <==
 tilled_init();
 Inventory	inv; inv.inv_init();
 plants_init();
@@ -47,8 +48,8 @@ while(1) {
 	if (c=='q') break;
 	switch (c) {
 		case 'e': if (mp.s[(pl.y-1)*64+pl.x] == '.' || mp.s[(pl.y-1)*64+pl.x] == '"') pl.y--;
-			if (mp.s[(pl.y-1)*64+pl.x] == 'D') break;	// house.enter
-break;
+			if (mp.s[(pl.y-1)*64+pl.x] == 'D') //mp = &house; break;	// house.enter
+break;break;
 		case 's': if (mp.s[(pl.y)*64+pl.x-1] == '.' || mp.s[(pl.y)*64+pl.x-1] == '"') pl.x--; break;
 		case 'd': if (mp.s[(pl.y+1)*64+pl.x] == '.' || mp.s[(pl.y+1)*64+pl.x] == '"') pl.y++; break;
 		case 'f': if (mp.s[(pl.y)*64+pl.x+1] == '.' || mp.s[(pl.y)*64+pl.x+1] == '"') pl.x++; break;
