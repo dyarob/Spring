@@ -83,7 +83,7 @@ while(1) {
 				delwin(winv); } break;
 		case 'p': inv = pick(pl, inv); break;
 		case 'l': till(pl, *mp); break;
-		case 'o':break;
+		case 'o': plant(pl); break;	//	<---
 	}
 
 	// DISPLAY
@@ -159,7 +159,10 @@ mvwaddch(w, anissa.y-(pl.y-10), anissa.x-(pl.x-25), anissa.c);
 
 void	dsp_tilled(WINDOW *w, Character pl) {
 for (int i = pl.y - 10; i < pl.y + 10; i++)
-	for(int j = pl.x - 25; j < pl.x + 25; j++)
-		if (tilled[i][j])
+	for(int j = pl.x - 25; j < pl.x + 25; j++) {
+		if (plants[i][j])
+			mvwaddch(w, i-(pl.y-10), j-(pl.x-25), 'p');
+		else if (tilled[i][j])
 			mvwaddch(w, i-(pl.y-10), j-(pl.x-25), '^');
+	}
 }
