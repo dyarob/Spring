@@ -26,12 +26,8 @@ Character	pl;
 pl.y = 10; pl.x = 25; pl.c = '&';
 Character	anissa;
 anissa.y = 14; anissa.x = 35; anissa.c = '&';
-<<<<<<< HEAD
-Map	mp; Map house; map_init(mp, house);
-=======
 Map	map; Map house; map_init(&map, &house);
 Map	*mp = &map;
->>>>>>> da451f3e2eabf231a73349e307b30b2bac82d5c1
 tilled_init();
 Inventory	inv; inv.inv_init();
 plants_init();
